@@ -1,0 +1,21 @@
+workflows:
+  dhikr-android:
+    name: Dhikr Android APK
+    max_build_duration: 60
+    instance_type: linux_x2
+    environment:
+      java: 17
+    scripts:
+      - name: Build debug APK
+        script: |
+          gradle --version
+          gradle :app:assembleDebug --stacktrace
+      - name: Build release APK
+        script: |
+          gradle :app:assembleRelease --stacktrace
+    artifacts:
+      - app/build/outputs/apk/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - $CM_BUILD_AUTHOR_EMAIL
